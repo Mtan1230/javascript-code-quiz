@@ -6,10 +6,10 @@ const userInit = document.querySelector("#initial");
 const scoreList = document.querySelector("#score-list");
 const cardEl = document.querySelectorAll(".card");
 const nextBtn = document.querySelectorAll(".next-btn");
+const clearBtn = document.getElementById("clear-btn");
 
 
 const returnBtn = document.getElementById("return-btn");
-const clearBtn = document.getElementById("clear-btn");
 
 const newScore = {
     initial: "",
@@ -88,7 +88,8 @@ function displayScore(initial, highScore) {
 }
 
 function clearScore() {
-    
+    scoreList.innerHTML = "";
+    localStorage.removeItem("score");
 }
 
 function next() {
