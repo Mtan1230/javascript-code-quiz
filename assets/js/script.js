@@ -7,9 +7,8 @@ const scoreList = document.querySelector("#score-list");
 const cardEl = document.querySelectorAll(".card");
 const nextBtn = document.querySelectorAll(".next-btn");
 const clearBtn = document.getElementById("clear-btn");
-
-
 const returnBtn = document.getElementById("return-btn");
+const viewScoreBtn = document.getElementById("view-score-btn");
 
 const newScore = {
     initial: "",
@@ -129,3 +128,9 @@ returnBtn.addEventListener("click", function() {
 })
 
 clearBtn.addEventListener("click", clearScore);
+
+viewScoreBtn.addEventListener("click", function() {
+    cardEl[cardIndex].setAttribute("data-state", "hidden");
+    cardIndex = 7;
+    cardEl[cardIndex].setAttribute("data-state", "display");
+})
