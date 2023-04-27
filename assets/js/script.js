@@ -125,7 +125,7 @@ nextBtn.forEach(function(btn) {
 });
 
 returnBtn.addEventListener("click", function() {
-    document.reload();
+    location.reload();
 })
 
 clearBtn.addEventListener("click", clearScore);
