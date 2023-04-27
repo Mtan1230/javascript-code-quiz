@@ -10,8 +10,9 @@ header {
     justify-content: space-between;
 }
 
-#high-score {
+#view-score-btn {
     color: purple;
+    background-color: white;
 }
 
 main {
@@ -19,7 +20,7 @@ main {
     margin: 50px auto;
 }
 
-#start {
+#start-page {
     text-align: center;
 }
 

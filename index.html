@@ -10,12 +10,12 @@
 
 <body>
     <header>
-        <div id="high-score">View high scores</div>
-        <div id="time">Time</div>
+        <button id="view-score-btn">View high scores</button>
+        <div id="timer">Time</div>
     </header>
 
     <main>
-        <section id="start" class="card" data-state="display">
+        <section id="start-page" class="card" data-state="display">
             <h1>Coding Quiz Challenge</h1>
             <p>Try to answer the following code-related questions within the time limit. <br>Keep in mind that i answer will penalize your score/time by ten seconds!</limit></p>
             <button class="next-btn">Start Quiz</button>
@@ -58,12 +58,14 @@
         <section id="end" class="card" data-state="hidden">
             <h2>All done!</h2>
             <p id="result"></p>
-            <input type="text">
-            <button class="next-btn">Submit</button>
+            <form>
+                <input type="text" id="initial">
+                <button class="next-btn">Submit</button>
+            </form>
         </section>
         <section id="record" class="card" data-state="hidden">
             <h3>High scores</h3>
-            <ol></ol>
+            <ol id="score-list"></ol>
             <button id="return-btn">Go back</button>
             <button id="clear-btn">Clear high scores</button>
         </section>

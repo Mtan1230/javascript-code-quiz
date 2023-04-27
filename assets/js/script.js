@@ -1,12 +1,26 @@
 //select elements
-const timeEl = document.getElementById("time");
+const timeEl = document.getElementById("timer");
+const answerEl = document.getElementById("answer");
+const resultEl = document.getElementById("result");
+const userInit = document.querySelector("#initial");
+const scoreList = document.querySelector("#score-list");
 const cardEl = document.querySelectorAll(".card");
 const nextBtn = document.querySelectorAll(".next-btn");
-const showAnswer = document.getElementById("answer");
-const result = document.getElementById("result");
-const highScore = localStorage.getItem("score");
+
+
 const returnBtn = document.getElementById("return-btn");
 const clearBtn = document.getElementById("clear-btn");
+
+//load local storage
+const lastScore = JSON.parse(localStorage.getItem("score"));
+const displayScore = document.createElement("li");
+displayScore.innerText = lastScore.initial + " - " + lastScore.highestScore;
+scoreList.appendChild(record);
+
+const newScore = {
+    initial: "",
+    highestScore: 0,
+};
 
 let secLeft = 75;
 let score = 0;
@@ -30,9 +44,9 @@ function checkAnswer(event) {
     const correctAnswer = event.target.parentNode.querySelector('[data-answer="Correct"]');
     if(choice === "Wrong") {
         secLeft -= 15;
-        showAnswer.textContent = choice + "! Correct answer is " + correctAnswer.textContent;
+        answerEl.textContent = choice + "! Correct answer is " + correctAnswer.textContent;
     } else if (choice === "Correct") {
-        showAnswer.textContent = choice + "!";
+        answerEl.textContent = choice + "!";
     }
 }
 
@@ -43,11 +57,18 @@ function endQuiz() {
     }
     cardEl[cardIndex].setAttribute("data-state", "hidden");
     cardEl[6].setAttribute("data-state", "display");
-    result.textContent = "Your final score is: " + score;
+    resultEl.textContent = "Your final score is: " + score;
 }
 
-function saveScore() {
-
+function saveScore(event) {
+    event.preventDefault();
+    newScore.initial = userInit.value;
+    newScore.highestScore = score;
+    // highScore = highScore.concat(newScore);
+    localStorage.setItem("score", JSON.stringify(newScore));
+    console.log(newScore)
+    highScore.push(newScore)
+    console.log(highScore)
 }
 
 function clearScore() {
@@ -72,8 +93,9 @@ function next() {
         case 6:
             checkAnswer(event);
             endQuiz();
-        default:
-            saveScore();
+            break;
+        case 7:
+            saveScore(event);
     }
 
 }
