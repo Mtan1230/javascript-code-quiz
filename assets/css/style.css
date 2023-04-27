@@ -1,0 +1,50 @@
+body {
+    width: 60%;
+    margin: 50px auto;
+    font-size: 30px;
+    line-height: 1.5;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#high-score {
+    color: purple;
+}
+
+main {
+    width: 80%;
+    margin: 50px auto;
+}
+
+#start {
+    text-align: center;
+}
+
+.question {
+    display: flex;
+    flex-direction: column;
+}
+
+.question p {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.choice-btn {
+    width: 25%;
+}
+
+/* .card[data-state="hidden"] {
+    display: none;
+} */
+
+button {
+    background-color: blueviolet;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.5rem;
+    padding: 15px;
+}
