@@ -11,23 +11,23 @@ const nextBtn = document.querySelectorAll(".next-btn");
 const returnBtn = document.getElementById("return-btn");
 const clearBtn = document.getElementById("clear-btn");
 
-//load local storage
-const lastScore = JSON.parse(localStorage.getItem("score"));
-const displayScore = document.createElement("li");
-displayScore.innerText = lastScore.initial + " - " + lastScore.highestScore;
-scoreList.appendChild(record);
-
 const newScore = {
     initial: "",
-    highestScore: 0,
+    highScore: 0,
 };
 
 let secLeft = 75;
 let score = 0;
 let cardIndex = 0;
 
+//load local storage
+const lastScore = JSON.parse(localStorage.getItem("score"));
+if (lastScore) {
+    displayScore(lastScore.initial, lastScore.highScore);
+}
+
+//set interval
 function startQuiz() {
-    //set interval
     const timeInterval = setInterval(function() {
         timeEl.textContent = "Time: " + secLeft;
         secLeft--;
@@ -35,40 +35,56 @@ function startQuiz() {
         timeEl.textContent = "";
         clearInterval(timeInterval);
         endQuiz();
+        cardEl[cardIndex].setAttribute("data-state", "hidden");
+        cardIndex = 6;
+        cardEl[cardIndex].setAttribute("data-state", "display");
     }
     }, 1000);
 }
 
+//display answer
 function checkAnswer(event) {
     const choice = event.target.getAttribute("data-answer");
     const correctAnswer = event.target.parentNode.querySelector('[data-answer="Correct"]');
     if(choice === "Wrong") {
         secLeft -= 15;
         answerEl.textContent = choice + "! Correct answer is " + correctAnswer.textContent;
-    } else if (choice === "Correct") {
+    } else {
         answerEl.textContent = choice + "!";
     }
 }
 
+//show result
 function endQuiz() {
     if (secLeft > 0) {
         score = secLeft;
         secLeft = 0;
     }
-    cardEl[cardIndex].setAttribute("data-state", "hidden");
-    cardEl[6].setAttribute("data-state", "display");
     resultEl.textContent = "Your final score is: " + score;
 }
 
+//save initial and score 
 function saveScore(event) {
     event.preventDefault();
     newScore.initial = userInit.value;
-    newScore.highestScore = score;
-    // highScore = highScore.concat(newScore);
-    localStorage.setItem("score", JSON.stringify(newScore));
-    console.log(newScore)
-    highScore.push(newScore)
-    console.log(highScore)
+    newScore.highScore = score;
+    displayScore(newScore.initial, newScore.highScore);
+    //save new user or update user's highscore
+    switch (true) {
+        case (lastScore === null):
+        case (newScore.initial !== lastScore.initial):
+        case (newScore.initial === lastScore.initial && newScore.highScore > lastScore.highScore):
+            localStorage.setItem("score", JSON.stringify(newScore));
+            break;
+        default:
+            break;
+    }
+}
+
+function displayScore(initial, highScore) {
+    const listEl = document.createElement("li");
+    listEl.innerText = initial + " - " + highScore;
+    scoreList.appendChild(listEl);
 }
 
 function clearScore() {
@@ -96,8 +112,10 @@ function next() {
             break;
         case 7:
             saveScore(event);
+            break;
+        default:
+            break;
     }
-
 }
 
 //event listeners
