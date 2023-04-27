@@ -18,6 +18,7 @@ const newScore = {
 let secLeft = 75;
 let score = 0;
 let cardIndex = 0;
+let isRunning = false;
 
 //load local storage
 const lastScore = JSON.parse(localStorage.getItem("score"));
@@ -30,14 +31,16 @@ function startQuiz() {
     const timeInterval = setInterval(function() {
         timeEl.textContent = "Time: " + secLeft;
         secLeft--;
-    if (secLeft <= 0) {
-        timeEl.textContent = "";
-        clearInterval(timeInterval);
-        endQuiz();
-        cardEl[cardIndex].setAttribute("data-state", "hidden");
-        cardIndex = 6;
-        cardEl[cardIndex].setAttribute("data-state", "display");
-    }
+        isRunning = true;
+        if (secLeft <= 0) {
+            timeEl.textContent = "";
+            clearInterval(timeInterval);
+            isRunning = false;
+            endQuiz();
+            cardEl[cardIndex].setAttribute("data-state", "hidden");
+            cardIndex = 6;
+            cardEl[cardIndex].setAttribute("data-state", "display");
+        }
     }, 1000);
 }
 
@@ -65,6 +68,7 @@ function endQuiz() {
 //save initial and score 
 function saveScore(event) {
     event.preventDefault();
+    answerEl.textContent = "";
     newScore.initial = userInit.value;
     newScore.highScore = score;
     displayScore(newScore.initial, newScore.highScore);
@@ -130,7 +134,9 @@ returnBtn.addEventListener("click", function() {
 clearBtn.addEventListener("click", clearScore);
 
 viewScoreBtn.addEventListener("click", function() {
-    cardEl[cardIndex].setAttribute("data-state", "hidden");
-    cardIndex = 7;
-    cardEl[cardIndex].setAttribute("data-state", "display");
+    if (!isRunning) {
+        cardEl[cardIndex].setAttribute("data-state", "hidden");
+        cardIndex = 7;
+        cardEl[cardIndex].setAttribute("data-state", "display");
+    }
 })
